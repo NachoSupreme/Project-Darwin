@@ -1,0 +1,255 @@
+<% include ./partials/header %>
+    <!--Page Contents-->
+<div class="pusher">
+  <div class="ui vertical masthead center aligned segment" style="background-color: #F8F8FF;">
+        <h1 class="ui header">
+          Magic
+        </h1>
+        <h2>It does magical things.</h2>
+        <div class="ui huge primary button" onClick="account_signup();">Sign Up<i class="right arrow icon"></i></div>
+    </div>
+  
+  <div class="ui vertical stripe segment">
+      <div class="ui middle aligned stackable grid container">
+        <div class="row">
+          <div class="eight wide column">
+            <h3 class="ui header">We Help Companies and Companions</h3>
+            <p>We can give your company superpowers to do things that they never thought possible. Let us delight your customers and empower your needs...through pure data analytics.</p>
+            <h3 class="ui header">We Make Bananas That Can Dance</h3>
+            <p>Yes that's right, you thought it was the stuff of dreams, but even bananas can be bioengineered.</p>
+          </div>
+          <div class="six wide right floated column">
+            <img src="assets/images/wireframe/white-image.png" class="ui large bordered rounded image">
+          </div>
+        </div>
+        <div class="row">
+          <div class="center aligned column">
+            <a class="ui huge button">Check Them Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  <div class="ui vertical stripe quote segment">
+    <div class="ui equal width stackable internally celled grid">
+      <div class="center aligned row">
+        <div class="column">
+          <h3>"What a Company"</h3>
+          <p>That is what they all say about us</p>
+        </div>
+        <div class="column">
+          <h3>"I shouldn't have gone with their competitor."</h3>
+          <p>
+            <img src="assets/images/avatar/nan.jpg" class="ui avatar image"> <b>Nan</b> Chief Fun Officer Acme Toys
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui vertical stripe segment">
+    <div class="ui text container">
+      <h3 class="ui header">Breaking The Grid, Grabs Your Attention</h3>
+      <p>Instead of focusing on content creation and hard work, we have learned how to master the art of doing nothing by providing massive amounts of whitespace and generic content that can seem massive, monolithic and worth your attention.</p>
+      <a class="ui large button">Read More</a>
+      <h4 class="ui horizontal header divider">
+        <a href="#">Case Studies</a>
+      </h4>
+      <h3 class="ui header">Did We Tell You About Our Bananas?</h3>
+      <p>Yes I know you probably disregarded the earlier boasts as non-sequitur filler content, but its really true. It took years of gene splicing and combinatory DNA research, but our bananas can really dance.</p>
+      <a class="ui large button">I'm Still Quite Interested</a>
+    </div>
+  </div>
+</div>
+
+
+
+<!--**************************USER SIGN UP**************************************-->
+<div class="ui first coupled modal transition hidden" style="margin-top: -140px; display: block !important;">
+    <div class="header">
+      <label for="accountType"><h2 class="ui header centered">Let's create your account!</h2></label>
+      <h3 class = "ui header centered">Signing up is simple and free</h3>
+      <div class="ui two steps">
+        <div class="active step">
+          <i class="user icon"></i>
+          <div class="content">
+            <div class="title">Sign Up</div>
+            <div class="description">Create an account</div>
+          </div>
+        </div>
+        <div class="disabled step">
+          <i class="truck icon"></i>
+          <div class="content">
+            <div class="title">Shipping</div>
+            <div class="description">Choose your shipping options</div>
+          </div>
+        </div>
+      </div>
+    </div> <!--ends header-->
+    
+    <!--starts content-->
+    <div class="ui middle aligned center aligned grid">
+      <div class="column forModel">
+        <h2 class="ui blue image header">
+          <div class="content">
+            Create Account
+          </div>
+        </h2>
+        <form class="ui large form" action="/register" method="POST">
+          <div class="ui stacked segment">
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input type="email" name="username" placeholder="E-mail address">
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="password" placeholder="Password">
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="passwordConfirm" placeholder="Confirm Password">
+              </div>
+            </div>
+            <div class="inline fields">
+              <label for="accountType">Select your account type:</label>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input type="radio" name="personalAccount" tabindex="0" class="hidden" checked>
+                    <label>Personal</label>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui radio checkbox">
+                    <input type="radio" name="businessAccount" tabindex="0" class="hidden">
+                    <label>Business</label>
+                  </div>
+                </div>
+            </div>
+              <div class="actions">
+                <button class="ui cancel button">
+                  Cancel
+                </button>
+                <button class="ui primary submit button">
+                  Next
+                  <i class="angle right icon"></i>
+                </button>
+              </div>
+          </div>
+          <div class="ui error message"></div>
+        </form>
+        <div class="ui message">
+          Already a member?  <a href="#">Login</a>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!--****************************USER SIGN IN*******************************-->
+
+<div class="ui login modal transition hidden" style="margin-top: -140px; display: block !important;">
+    <div class="header">
+      <label for="accountType"><h2 class="ui header centered">Login</h2></label>
+    </div>
+      <!--ends header-->
+      <!--starts content-->
+    <div class="ui middle aligned center aligned grid">
+      <div class="column forModel">
+        <h2 class="ui blue image header">
+          <div class="content">
+            Enter Your email and password
+          </div>
+        </h2>
+        <form class="ui large form" action="/login" method="POST">
+          <div class="ui stacked segment">
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input type="text" name="username" placeholder="E-mail address">
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="password" placeholder="Password">
+              </div>
+            </div>
+            <button class="ui huge primary button submit" style="width: 100%;">
+                  Log in
+            </button>
+          </div>
+          <div class="ui error message"></div>
+        </form>
+        <div class="ui message">
+          Forgot your password?  <a href="#">Reset here</a>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script>
+  $(document)
+    .ready(function() {
+      $('.ui.form')
+        .form({
+          fields: {
+            email: {
+              identifier  : 'email',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your e-mail'
+                },
+                {
+                  type   : 'email',
+                  prompt : 'Please enter a valid e-mail'
+                }
+              ]
+            },
+            password: {
+              identifier  : 'password',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your password'
+                },
+                {
+                  type   : 'length[6]',
+                  prompt : 'Your password must be at least 6 characters'
+                }
+              ]
+            }
+          }
+        })
+      ;
+    })
+  ;
+ 
+  // For Modal
+  // show first now
+$('.first.modal').modal('show');
+
+
+$('.coupled.modal').modal({
+    allowMultiple: false
+  });
+  
+// attach events to buttons
+/*$('.second.modal')
+  .modal('attach events', '.first.modal .button');*/
+
+$('.ui.radio.checkbox')
+  .checkbox()
+;
+</script>
+<% include ./partials/footer %>

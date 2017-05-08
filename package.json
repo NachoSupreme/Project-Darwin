@@ -1,0 +1,68 @@
+{
+  "name": "projectdarwin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NachoSupreme/Project-Darwin.git"
+  },
+  "author": "Majed Chaaban",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NachoSupreme/Project-Darwin/issues"
+  },
+  "homepage": "https://github.com/NachoSupreme/Project-Darwin#readme",
+  "dependencies": {
+    "better-console": "^1.0.0",
+    "body-parser": "^1.17.1",
+    "braintree": "^2.0.2",
+    "del": "^2.2.2",
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "express-session": "^1.15.2",
+    "extend": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-chmod": "^2.0.0",
+    "gulp-clean-css": "^3.0.4",
+    "gulp-clone": "^1.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-concat-css": "^2.3.0",
+    "gulp-copy": "^1.0.0",
+    "gulp-dedupe": "0.0.2",
+    "gulp-flatten": "^0.3.1",
+    "gulp-header": "^1.8.8",
+    "gulp-help": "^1.6.1",
+    "gulp-if": "^2.0.2",
+    "gulp-less": "^3.3.0",
+    "gulp-notify": "^3.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-print": "^2.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-rtlcss": "^1.0.0",
+    "gulp-uglify": "^2.1.0",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^4.3.11",
+    "jQuery": "^1.7.4",
+    "jquery": "^3.2.1",
+    "jsdom": "^9.12.0",
+    "map-stream": "0.0.6",
+    "method-override": "^2.3.8",
+    "mongoose": "^4.9.4",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.0.0",
+    "require-dot-file": "^0.4.0",
+    "run-sequence": "^1.2.2",
+    "semantic-ui": "^2.2.9",
+    "yamljs": "^0.2.8"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}

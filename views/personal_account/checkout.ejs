@@ -1,0 +1,279 @@
+<% include ../partials/header %>
+<div class="pusher">
+<% include ../partials/accountNavBar %>
+
+
+  <div class="ui stackable grid container">
+  <div class="row" style="margin-top:25px;">
+    <div class="twelve wide column align centered">
+      <div class="ui header align centered">Shopping Cart</div>
+          <table class="ui blue table center aligned">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th></th>
+                <th>Quanity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Frying Pan
+                </td>
+                <td name="itemPrice">23.99</td>
+                <td><i class="x icon"></i></td>
+                <td>
+                  <input type="number" step="1" style="width:50px; border:none;" min="0" value="0" name="itemQty">
+                </td>
+              </tr>
+              <tr>
+                <td>Pizza delivery</td>
+                <td name="itemPrice">32.64</td>
+                <td><i class="x icon"></i></td>
+                <td>
+                  <input type="number" step="1" style="width:50px; border:none;" min="0" value="0" name="itemQty">
+                </td>
+              </tr>
+              <tr>
+                <td>iPhone 7</td>
+                 <td name="itemPrice">499.99</td>
+                 <td><i class="x icon" aria-hidden="true"></i></td>
+                <td>
+                  <input type="number" step="1" style="width:50px; border:none;" min="0" value="0" name="itemQty">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      <div class="ui header align centered">Shipping Address</div>
+        <div class="ui vertical fluid accordion menu eight wide column align centered">
+          <div class="item">
+              <a class="title hidden">
+                <div class="ui grid">
+                  <div class="row hover">
+                      <div class="three wide column">
+                        <em><%= customerInfo.shipping[0].firstName %> <%= customerInfo.shipping[0].lastName %></em>
+                      </div>
+                      <div class="five wide column">
+                       <%=customerInfo.shipping[0].address%>
+                      </div>
+                      <div class="five wide column">
+                      <%=customerInfo.shipping[0].city%>, <%=customerInfo.shipping[0].state%><br>
+                      <%=customerInfo.shipping[0].zipcode%>
+                      </div>
+                      
+                      <div class="three wide column">
+                        <button class="ui orange basic small button changeFundingInstrument">Change</button>
+                      </div>
+                     
+                  </div>
+                   
+                </div>
+              </a>
+            <div class="content">
+              <div class="ui grid">
+                <div class="two column row">
+                  <div class="column">
+                    <div class="ui tiny header">
+                      Name on Card
+                    </div>
+                      <div class="ui content">
+                      John Doe
+                      </div>
+                    </div>
+                  <div class="column">
+                    <div class="ui tiny header">
+                    Billing Address
+                  </div>
+                    <div class="ui content">
+                    1111 Main Street. New York, NY 21001
+                  </div>
+                  </div>
+                  <div class="column"></div>
+                  <div class="column">
+                    <div class="action items" style="margin-top:15px;">
+                      <button class="ui secondary button delete">Delete</button>
+                      <button class="ui primary button edit">Edit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <div class="ui header align centered">Payment Method</div>
+         <div class="row hover" style="padding-top:5px;">
+        <div class="ui vertical fluid accordion menu eight wide column align centered">
+          <div class="item">
+              <a class="title hidden">
+                <div class="ui grid">
+                  <div class="row">
+                      <div class="three wide column">
+                        <img src="<%= btCustomer.paymentMethods[0].imageUrl %>">
+                      </div>
+                      <div class="five wide column">
+                        Ending in * <%= btCustomer.paymentMethods[0].last4 %>
+                      </div>
+                      <div class="five wide column">
+                        Expires <%= btCustomer.paymentMethods[0].expirationMonth %>/<%= btCustomer.paymentMethods[0].expirationYear %>
+                      </div>
+                      
+                      <div class="three wide column">
+                        <button class="ui orange basic small button changeFundingInstrument">Change</button>
+                      </div>
+                     
+                  </div>
+                   
+                </div>
+              </a>
+            <div class="content">
+              <div class="ui grid">
+                <div class="two column row">
+                  <div class="column">
+                    <div class="ui tiny header">
+                      Name on Card
+                    </div>
+                      <div class="ui content">
+                      John Doe
+                      </div>
+                    </div>
+                  <div class="column">
+                    <div class="ui tiny header">
+                    Billing Address
+                  </div>
+                    <div class="ui content">
+                    1111 Main Street. New York, NY 21001
+                  </div>
+                  </div>
+                  <div class="column"></div>
+                  <div class="column">
+                    <div class="action items" style="margin-top:15px;">
+                      <button class="ui secondary button delete">Delete</button>
+                      <button class="ui primary button edit">Edit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+      <div class="ui padded segment">
+        <form id="checkout" method="POST" action="/myaccount/checkout">
+          <div id="payment-form"></div>
+          <input name="customerInfo" id="checkoutParameters" type="hidden" class="hidden"></input>
+          <button type="submit" class="ui green button submit" style="width:100%; margin-top:20px;" id="submitPurchase">Purchase Price: $<span id="payButton" name="payAmount">0.00</span></button>
+          
+        </form>
+      </div>
+    </div>
+</div>
+</div>
+</div>
+<script src="https://js.braintreegateway.com/js/braintree-2.32.0.min.js"></script>
+<script>
+
+var shoppingCart = [];
+var shippingAddress = [];
+var paymentMethods = [];
+
+
+
+
+
+var bt = "<%= btCustomer.paymentMethods[0].imageUrl %>"
+
+
+
+
+
+
+var checkoutParams = {
+    amount: "",
+    customer: {
+      customerId: "<%=customerInfo._id%>",
+      email: "<%=customerInfo.username%>",
+      firstName: "<%=customerInfo.shipping[0].firstName%>",
+      lastName: "<%=customerInfo.shipping[0].lastName%>",
+      phone: "<%=customerInfo.mobile_number%>",
+      braintree_customerID: "<%=customerInfo.braintree_customerID%>"
+    },
+    shipping: {
+      firstName: "<%=customerInfo.shipping[0].firstName%>",
+      lasttName: "<%=customerInfo.shipping[0].lastName%>",
+      streetAddress: "<%=customerInfo.shipping[0].address%>",
+      extendedAddress: "<%=customerInfo.shipping[0].addressApt%>",
+      locality: "<%=customerInfo.shipping[0].city%>",
+      region: "<%=customerInfo.shipping[0].state%>",
+      postalCode: "<%=customerInfo.shipping[0].zipcode%>"
+    }
+}
+
+/*$("#submitPurchase").click(function(){
+  $.post("/myaccount/checkout", 
+  {
+    amount: checkoutParams.amount,
+    customer: {
+      firstName: "<%=customerInfo.shipping[0].firstName%>",
+      lastName: "<%=customerInfo.shipping[0].lastName%>",
+      phone: null,
+      customerId: "<%=customerInfo._id%>",
+      email: "<%=customerInfo.username%>"
+    },
+    shipping: {
+      firstName: "<%=customerInfo.shipping[0].firstName%>",
+      lasttName: "<%=customerInfo.shipping[0].lastName%>",
+      streetAddress: "<%=customerInfo.shipping[0].address%>",
+      extendedAddress: "<%=customerInfo.shipping[0].addressApt%>",
+      locality: "<%=customerInfo.shipping[0].city%>",
+      region: "<%=customerInfo.shipping[0].state%>",
+      postalCode: "<%=customerInfo.shipping[0].zipcode%>"
+    }
+},
+  function(data, status) {
+    console.log("Data: " + data + " Status: " + status);
+  });
+});*/
+
+var cartItems = document.getElementsByName("itemQty");
+var itemQtyCalculation = (function() {
+  for (var i = 0; i < cartItems.length; i++){
+    cartItems[i].onchange = cartSubTotal;
+  }
+})();
+
+function cartSubTotal() {
+  var checkoutParameters = document.getElementById("checkoutParameters");
+  var cartPrice = document.getElementsByName("itemPrice");
+  var payButton = document.getElementById("payButton");
+  var subTotal = 0;
+  for (var i = 0; i < cartPrice.length; i++) {
+    if (cartPrice[i].nextElementSibling.nextElementSibling.childNodes[1].value < 0) {
+        cartPrice[i].nextElementSibling.nextElementSibling.childNodes[1].value = 0;
+    }
+    subTotal += Number(cartPrice[i].innerText) * cartPrice[i].nextElementSibling.nextElementSibling.childNodes[1].value ;
+  }
+  subTotal = subTotal.toFixed(2);
+  return (function(){
+    payButton.innerText = subTotal;
+    checkoutParams.amount = subTotal;
+    checkoutParameters.value = JSON.stringify(checkoutParams);
+  })();
+}
+
+$('.ui.accordion')
+  .accordion({
+    selector: {
+      trigger: '.changeFundingInstrument'
+    },
+  })
+;
+  
+(function () {
+  var clientToken = "<%=clientToken%>";
+  braintree.setup(clientToken, "dropin", {
+    container: "payment-form"
+  });
+})()
+</script>
+<% include ../partials/footer %>
