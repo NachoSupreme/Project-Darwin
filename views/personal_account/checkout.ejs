@@ -1,5 +1,5 @@
 <% include ../partials/header %>
-<div class="pusher">
+<div class="pusher" style="padding-bottom:5%">
 <% include ../partials/accountNavBar %>
 
 
@@ -50,119 +50,99 @@
           <div class="item">
               <a class="title hidden">
                 <div class="ui grid">
-                  <div class="row hover">
-                      <div class="three wide column">
-                        <em><%= customerInfo.shipping[0].firstName %> <%= customerInfo.shipping[0].lastName %></em>
-                      </div>
-                      <div class="five wide column">
-                       <%=customerInfo.shipping[0].address%>
-                      </div>
-                      <div class="five wide column">
+                  <div class="row hover" id="defaultAddress">
+                    <div class="three wide column defaultShippingName" id="shippingName">
+                      <em><%= customerInfo.shipping[0].firstName %> <%= customerInfo.shipping[0].lastName %></em>
+                    </div>
+                    <div class="five wide column" id="shippingAddress">
+                     <%=customerInfo.shipping[0].address%>
+                    </div>
+                    <div class="five wide column" id="shippingCityStateZip">
                       <%=customerInfo.shipping[0].city%>, <%=customerInfo.shipping[0].state%><br>
                       <%=customerInfo.shipping[0].zipcode%>
-                      </div>
-                      
-                      <div class="three wide column">
-                        <button class="ui orange basic small button changeFundingInstrument">Change</button>
-                      </div>
+                    </div>
+                    
+                    <div class="three wide column">
+                      <button class="ui orange basic small button changeFundingInstrument">Change</button>
+                    </div>
                      
                   </div>
-                   
                 </div>
               </a>
             <div class="content">
               <div class="ui grid">
-                <div class="two column row">
-                  <div class="column">
-                    <div class="ui tiny header">
-                      Name on Card
-                    </div>
-                      <div class="ui content">
-                      John Doe
+                <div class="row hover">
+                <div class="ui sub header">Select Different Shipping Address</div>
+                  <select name="skills" class="ui fluid search dropdown" id="shippingArray" onchange="addressSelect();">
+                    <option value="">Change Shipping Address</option>
+                    <option value="signup/user/shipping">
+                      <a href="signup/user/shipping">
+                      <div>
+                        <em>Add address</em>
                       </div>
-                    </div>
-                  <div class="column">
-                    <div class="ui tiny header">
-                    Billing Address
-                  </div>
-                    <div class="ui content">
-                    1111 Main Street. New York, NY 21001
-                  </div>
-                  </div>
-                  <div class="column"></div>
-                  <div class="column">
-                    <div class="action items" style="margin-top:15px;">
-                      <button class="ui secondary button delete">Delete</button>
-                      <button class="ui primary button edit">Edit</button>
-                    </div>
-                  </div>
+                      </a>
+                    </option>
+                  </select>
                 </div>
               </div>
             </div>
+        
+            
+          
           </div>
         </div>
+       <% if (btCustomer.paymentMethods != false){ %>
       <div class="ui header align centered">Payment Method</div>
          <div class="row hover" style="padding-top:5px;">
         <div class="ui vertical fluid accordion menu eight wide column align centered">
           <div class="item">
               <a class="title hidden">
                 <div class="ui grid">
-                  <div class="row">
+                  <div class="row" id="paymentInfo">
+                   
                       <div class="three wide column">
-                        <img src="<%= btCustomer.paymentMethods[0].imageUrl %>">
+                        <img id="defaultCardImage" src="<%=btCustomer.paymentMethods[0].imageUrl %>">
                       </div>
-                      <div class="five wide column">
-                        Ending in * <%= btCustomer.paymentMethods[0].last4 %>
+                      <div class="five wide column" id="defaultLast4">
+                        Ending in ****** <%=btCustomer.paymentMethods[0].last4%>
                       </div>
-                      <div class="five wide column">
-                        Expires <%= btCustomer.paymentMethods[0].expirationMonth %>/<%= btCustomer.paymentMethods[0].expirationYear %>
+                      <div class="five wide column" id="defaultExpiration">
+                        Expires <%=btCustomer.paymentMethods[0].expirationMonth%>/<%=btCustomer.paymentMethods[0].expirationYear%>
                       </div>
                       
                       <div class="three wide column">
                         <button class="ui orange basic small button changeFundingInstrument">Change</button>
                       </div>
-                     
-                  </div>
                    
+                  </div>
                 </div>
               </a>
-            <div class="content">
+         
+             <div class="content">
               <div class="ui grid">
-                <div class="two column row">
-                  <div class="column">
-                    <div class="ui tiny header">
-                      Name on Card
-                    </div>
-                      <div class="ui content">
-                      John Doe
-                      </div>
-                    </div>
-                  <div class="column">
-                    <div class="ui tiny header">
-                    Billing Address
-                  </div>
-                    <div class="ui content">
-                    1111 Main Street. New York, NY 21001
-                  </div>
-                  </div>
-                  <div class="column"></div>
-                  <div class="column">
-                    <div class="action items" style="margin-top:15px;">
-                      <button class="ui secondary button delete">Delete</button>
-                      <button class="ui primary button edit">Edit</button>
-                    </div>
-                  </div>
+                <div class="row hover">
+                <div class="ui sub header">Select A Different Payment Method</div>
+                  <select name="fundingInstrument" class="ui fluid search dropdown" id="paymentSelected" onchange="paymentSelected();">
+                    <option value="">Change Payment Method</option>
+                    <option value="paypal">
+                      PayPal
+                    </option>
+                    <option id="addFI">
+                      Use Another Payment Method
+                    </option>
+                  </select>
                 </div>
               </div>
             </div>
           </div>
         </div>
     </div>
-      <div class="ui padded segment">
+       <% } %>
+      <div class="ui padded segment" id="braintreePayment">
         <form id="checkout" method="POST" action="/myaccount/checkout">
           <div id="payment-form"></div>
           <input name="customerInfo" id="checkoutParameters" type="hidden" class="hidden"></input>
-          <button type="submit" class="ui green button submit" style="width:100%; margin-top:20px;" id="submitPurchase">Purchase Price: $<span id="payButton" name="payAmount">0.00</span></button>
+          <button type="submit" class="ui green button submit disabled" style="width:100%; margin-top:20px;" id="submitPurchase">Purchase Price: $<span id="payButton" name="payAmount">0.00</span></button>
           
         </form>
       </div>
@@ -173,20 +153,101 @@
 <script src="https://js.braintreegateway.com/js/braintree-2.32.0.min.js"></script>
 <script>
 
-var shoppingCart = [];
-var shippingAddress = [];
-var paymentMethods = [];
+var addresses = [];
+var paymentOptions = [];
+var displayContainer = false;
+
+(function createAddress() {
+  var shippingSelect = document.getElementById("shippingArray");
+  var firstItem = shippingSelect.childNodes[1];
+  if (shippingSelect.length - 2 < <%=customerInfo.shipping.length%>) {
+     <% for(var i = 0; i < customerInfo.shipping.length; i++) { %>
+        var newOption = document.createElement("option");
+        var shippingText = document.createTextNode("<%=customerInfo.shipping[i].firstName%> <%= customerInfo.shipping[i].lastName %> <%=customerInfo.shipping[i].address%> <%=customerInfo.shipping[i].city%> <%=customerInfo.shipping[i].state%> <%=customerInfo.shipping[i].zipcode%>");
+        newOption.appendChild(shippingText);
+        newOption.setAttribute("id", "<%=customerInfo.shipping[i]._id%>");
+        shippingSelect.insertBefore(newOption, firstItem.nextSibling);
+        addresses.push({id: "<%=customerInfo.shipping[i]._id%>",
+          firstName: "<%=customerInfo.shipping[i].firstName%>",
+          lastName: "<%=customerInfo.shipping[i].lastName%>",
+          streetAddress: "<%=customerInfo.shipping[i].address%>",
+          extendedAddress: "<%=customerInfo.shipping[i].addressApt%>",
+          locality: "<%=customerInfo.shipping[i].city%>",
+          region: "<%=customerInfo.shipping[i].state%>",
+          postalCode: "<%=customerInfo.shipping[i].zipcode%>"});
+      <% } %>
+    } 
+})();
+
+(function retrieveFI() {
+  var paymentSelected = document.getElementById("paymentSelected");
+  var firstItem = paymentSelected.childNodes[1];
+  if (paymentSelected.length - 3 < <%=btCustomer.paymentMethods.length%>) {
+     <% for(var i = 0; i < btCustomer.paymentMethods.length; i++) { %>
+        var newOption = document.createElement("option");
+        var paymentText = document.createTextNode("<%=btCustomer.paymentMethods[i].cardType%> " + "ending in *****"  + "<%=btCustomer.paymentMethods[i].last4%> " + "Expires " + "<%=btCustomer.paymentMethods[i].expirationMonth%>/<%=btCustomer.paymentMethods[i].expirationYear%>");
+        newOption.appendChild(paymentText);
+        newOption.setAttribute("id", "<%=btCustomer.paymentMethods[i].uniqueNumberIdentifier%>");
+        paymentSelected.insertBefore(newOption, firstItem.nextSibling);
+        paymentOptions.push({payment_id: "<%=btCustomer.paymentMethods[i].uniqueNumberIdentifier%>",
+          cardImage: "<%=btCustomer.paymentMethods[i].imageUrl%>",
+          last4: "Ending in ******" + "<%=btCustomer.paymentMethods[i].last4%>",
+          expiration: "Expires " + "<%=btCustomer.paymentMethods[i].expirationMonth%>/<%=btCustomer.paymentMethods[i].expirationYear%>",
+        });
+      <% } %>
+    } 
+})();
 
 
+function addressSelect() {
+  var selectedAddress = $("#shippingArray option:selected");
+  var addressId = selectedAddress[0].getAttribute("id");
+  var shippingName = document.getElementById("shippingName");
+  var shippingAddress = document.getElementById("shippingAddress");
+  var shippingCityStateZip = document.getElementById("shippingCityStateZip");
+   for(var i = 0; i < addresses.length; i++) {
+     if (addressId === addresses[i].id) {
+      shippingName.innerText = addresses[i].firstName + " " + addresses[i].lastName;
+      shippingAddress.innerText = addresses[i].streetAddress;
+      shippingCityStateZip.innerText = addresses[i].locality + ", " + addresses[i].region + " " + addresses[i].postalCode;
+       $('.ui.accordion').accordion('close', 0);
+    }
+   }
+}
 
-
-
-var bt = "<%= btCustomer.paymentMethods[0].imageUrl %>"
-
-
-
-
-
+function paymentSelected() {
+  var selectedPayment = $("#paymentSelected option:selected");
+  var paymentId = selectedPayment[0].getAttribute("id");
+  var cardImage = document.getElementById("defaultCardImage");
+  var cardLast4 = document.getElementById("defaultLast4");
+  var cardExpiration = document.getElementById("defaultExpiration");
+    if (paymentId === "addFI") {
+      cardImage.removeAttribute("src");
+      cardLast4.innerText = "Please enter card information below";
+      cardExpiration.innerText = "";
+        if(displayContainer === false) {
+          displayContainer = true;
+          return braintreeContainer();
+        }
+        else {
+          $("#braintreePayment").show();
+        }
+    }
+    else {
+      $("#braintreePayment").hide();
+        for (var i = 0; i < paymentOptions.length; i++) {
+         if (paymentId === paymentOptions[i].payment_id ) {
+          //a randomly-generated string that uniquely identifies a credit card number in the Vault. If the same credit card is added to a merchant's Vault multiple times, each Vault entry will have the same unique identifier
+          cardImage.setAttribute("src", paymentOptions[i].cardImage);
+          cardLast4.innerText = paymentOptions[i].last4;
+          cardExpiration.innerText = paymentOptions[i].expiration;
+           $('.ui.accordion').accordion('close', 0);
+          
+          }
+        }
+    }
+    
+}
 
 var checkoutParams = {
     amount: "",
@@ -209,34 +270,9 @@ var checkoutParams = {
     }
 }
 
-/*$("#submitPurchase").click(function(){
-  $.post("/myaccount/checkout", 
-  {
-    amount: checkoutParams.amount,
-    customer: {
-      firstName: "<%=customerInfo.shipping[0].firstName%>",
-      lastName: "<%=customerInfo.shipping[0].lastName%>",
-      phone: null,
-      customerId: "<%=customerInfo._id%>",
-      email: "<%=customerInfo.username%>"
-    },
-    shipping: {
-      firstName: "<%=customerInfo.shipping[0].firstName%>",
-      lasttName: "<%=customerInfo.shipping[0].lastName%>",
-      streetAddress: "<%=customerInfo.shipping[0].address%>",
-      extendedAddress: "<%=customerInfo.shipping[0].addressApt%>",
-      locality: "<%=customerInfo.shipping[0].city%>",
-      region: "<%=customerInfo.shipping[0].state%>",
-      postalCode: "<%=customerInfo.shipping[0].zipcode%>"
-    }
-},
-  function(data, status) {
-    console.log("Data: " + data + " Status: " + status);
-  });
-});*/
 
-var cartItems = document.getElementsByName("itemQty");
 var itemQtyCalculation = (function() {
+  var cartItems = document.getElementsByName("itemQty");
   for (var i = 0; i < cartItems.length; i++){
     cartItems[i].onchange = cartSubTotal;
   }
@@ -258,6 +294,12 @@ function cartSubTotal() {
     payButton.innerText = subTotal;
     checkoutParams.amount = subTotal;
     checkoutParameters.value = JSON.stringify(checkoutParams);
+      if(subTotal > 0) {
+        $('#submitPurchase').removeClass("disabled");
+      }
+      else {
+        $('#submitPurchase').addClass("disabled");
+      }
   })();
 }
 
@@ -265,15 +307,16 @@ $('.ui.accordion')
   .accordion({
     selector: {
       trigger: '.changeFundingInstrument'
-    },
+    }
   })
 ;
+
   
-(function () {
+var braintreeContainer = function () {
   var clientToken = "<%=clientToken%>";
   braintree.setup(clientToken, "dropin", {
     container: "payment-form"
   });
-})()
+};
 </script>
 <% include ../partials/footer %>

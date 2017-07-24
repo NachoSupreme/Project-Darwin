@@ -16,23 +16,23 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.js"></script>
   </head>
-<body style="background-color:#f5f7fa;">
+<body style="background-color:#f5f7fa;" id="body-header">
   
     <!-- Following Menu -->
 <div class = "ui large top fixed hidden menu" id="landing-header">
       <div class="ui container">
           <div class="header item">
-            <i class="code icon"></i>
+             <i class="angellist icon"></i>
               Magic
           </div>
             <a class="item">Personal</a>
             <a class="item">Merchant Portal</a>
             <div class="right menu">
                 <div class="item">
-                 <a class="ui button" id="signup" onClick="account_signup();">Log in</a>
+                 <a class="ui button" href="/signin">Log in</a>
                 </div>
                 <div class="item">
-                 <a class="ui button">Sign Up</a>
+                 <a class="ui button" href="/signup/user">Sign Up</a>
                 </div>
             </div>
       </div>
@@ -57,24 +57,40 @@
         <a class="toc item">
           <i class="sidebar icon"></i>
         </a>
+        <a href="/">
         <div class="header item">
-            <i class="code icon"></i>
-              Magic
+            <i class="angellist icon"></i>
+             Magic
           </div>
+        </a>
+        <% if(!currentUser){ %>
         <a class="item">Personal</a>
         <a class="item">Business</a>
-        <% if(!currentUser){ %>
         <div class="right item">
-          <a class="ui button" id="login" href="/login" style="margin-right: 10px;">Log in</a>
-          <a class="ui button" id="signup" href="/register">Sign Up</a>
+          <a class="ui button" href="/signin" style="margin-right: 10px;">Log in</a>
+          <a class="ui button" href="/signup/user">Sign Up</a>
         </div>
         <% } else { %>
           <div class="right item">
-            <a class="ui button" id="signup" href="/logout">Log Out</a>
+            <a class="ui button" href="/signout">Log Out</a>
           </div>
           <% } %>
       </div>
     </div>
+      <% if((error && error.length > 0) || (success && success.length > 0)) { %>
+        <div class="ui segment">
+          <% if(error.length > 0) {%>
+            <div class="ui red floating message">
+                <h3><%= error %></h3>
+            </div>
+          <% } %>
+           <% if(success.length > 0) {%>
+            <div class="ui green floating message">
+                <h3><%= success %></h3>
+            </div>
+            <% } %>
+        </div>
+      <% } %>
 </div>
 
 
@@ -103,3 +119,4 @@
     })
   ;
   </script>
+  

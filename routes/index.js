@@ -1,51 +1,9 @@
 var express = require("express");
 var passport = require("passport");
-var braintree = require('braintree');
 var User  = require("../models/user");
 var Shipping = require("../models/shipping");
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 
-var TRANSACTION_SUCCESS_STATUSES = [
-  braintree.Transaction.Status.Authorizing,
-  braintree.Transaction.Status.Authorized,
-  braintree.Transaction.Status.Settled,
-  braintree.Transaction.Status.Settling,
-  braintree.Transaction.Status.SettlementConfirmed,
-  braintree.Transaction.Status.SettlementPending,
-  braintree.Transaction.Status.SubmittedForSettlement
-];
-
-function formatErrors(errors) {
-  var formattedErrors = '';
-
-  for (var i in errors) { // eslint-disable-line no-inner-declarations, vars-on-top
-    if (errors.hasOwnProperty(i)) {
-      formattedErrors += 'Error: ' + errors[i].code + ': ' + errors[i].message + '\n';
-    }
-  }
-  return formattedErrors;
-}
-
-function createResultObject(transaction) {
-  var result;
-  var status = transaction.status;
-
-  if (TRANSACTION_SUCCESS_STATUSES.indexOf(status) !== -1) {
-    result = {
-      header: 'Sweet Success!',
-      icon: 'success',
-      message: 'Your test transaction has been successfully processed. See the Braintree API response and try again.'
-    };
-  } else {
-    result = {
-      header: 'Transaction Failed',
-      icon: 'fail',
-      message: 'Your test transaction has a status of ' + status + '. See the Braintree API response and try again.'
-    };
-  }
-
-  return result;
-}
 
 ///////////INDEX ROUTES///////////////////
 router.get("/", function(req, res){
@@ -54,13 +12,13 @@ router.get("/", function(req, res){
 
 
 //Show first page of register form
-router.get("/register", function(req, res){
+router.get("/signup/user", function(req, res){
   res.render("register");
 });
   
   
 //Create Route for first register page
-router.post("/register", function(req, res){
+router.post("/signup/user", function(req, res){
   var userParams = {
     username: req.body.username,
     personalAccount:req.body.personalAccount,
@@ -72,24 +30,26 @@ router.post("/register", function(req, res){
       return res.redirect("/");
     }
     passport.authenticate("local")(req, res, function(){
-      res.redirect("/register/shippingInfo");
+      res.redirect("/signup/user/shipping");
     });
   });
 });
   
 //Show second page of register form
-router.get("/register/shippingInfo", function(req, res){
+router.get("/signup/user/shipping", function(req, res){
     //is user logged in
-    if(req.isAuthenticated()){
+  if(req.isAuthenticated()){
       res.render("shippingInfo");
-    } else {
+  } else {
           console.log("User needs to be logged in");
-          res.redirect("/register");
-      }
-  });
+          res.redirect("back");
+    }
+});
 
 
-router.post("/register/shippingInfo", isLoggedIn, function(req,res){
+
+//Create Route for second register page
+router.post("/signup/user/shipping", isLoggedIn, function(req,res){
   var shippingInfo = req.body.shipping;
   var loggedinUser = req.user._id;
   //create shipping information
@@ -122,14 +82,16 @@ router.get("/myaccount/settings", isLoggedIn, function(req, res){
   
 
 //show login form
-router.get("/login",function(req, res){
-  res.render("login");
+router.get("/signin",function(req, res){
+  res.render("signin");
 });
 
-router.post("/login", passport.authenticate("local",
+
+//login
+router.post("/signin", passport.authenticate("local",
 {
   successRedirect: "/myaccount/checkout",
-  failureRedirect: "/login"
+  failureRedirect: "/signin"
   
 }), function(req, res){
 });
@@ -137,8 +99,9 @@ router.post("/login", passport.authenticate("local",
 
 
 //Log out
-router.get("/logout", function(req, res){
+router.get("/signout", function(req, res){
   req.logout();
+  req.flash("success", "You are now signed out");
   res.redirect("/");
 });
 
@@ -148,7 +111,8 @@ function isLoggedIn(req, res, next){
   if(req.isAuthenticated()){
     return next();
   }
-  res.redirect("/");
+  req.flash("error", "Please Login First!");
+  res.redirect("/signin");
 }
 
 

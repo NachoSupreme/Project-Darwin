@@ -1,12 +1,11 @@
-.modal {
-      background-color: #DADADA;
-    }
-.modal > .grid {
-      height: 100%;
-    }
-.image {
-      margin-top: -100px;
-    }
+
+
+.ui.segment:first-child {
+  margin-top: 5%;
+  
+}
+
+
 .column.forModel {
 max-width: 450px;
     }
@@ -19,12 +18,7 @@ max-width: 450px;
   margin-bottom: 15px;
 }
 
-@media only screen and (min-width: 1200px) {
-.ui.modal {
-    width: 600px;
-    margin: 0 0 0 -300px;
-  }
-}
+
 
 .ui.second .actions {
   margin: 20px;
@@ -35,3 +29,14 @@ max-width: 450px;
   border: none;
   background: none;
 }
+
+
+#registerPusher {
+    background-image: url("https://images.unsplash.com/photo-1456982517712-a381d29cff14?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=&bg=");
+    height: 100vh;
+    position: relative;
+    background-size: cover;
+    background-position-y: 40%;
+    width: 100vw;
+    min-height: 100vh;
+  }

@@ -11,10 +11,6 @@ var gateway = braintree.connect({
   privateKey: 'c27277e622f8f51c6255777086a9963c'
 });
 
-var btCustomerInfo={};
-
-
-
 router.get("/checkout", isLoggedIn, function(req, res){
   gateway.clientToken.generate({}, function (err, response) {
     if(err) {
@@ -27,13 +23,14 @@ router.get("/checkout", isLoggedIn, function(req, res){
       } else {
           if(customerInfo.braintree_customerID) {
             //find braintree customerID
-            gateway.customer.find(customerInfo.braintree_customerID, function(err, customer) {
+            gateway.customer.find(customerInfo.braintree_customerID, function(err, btCustomer) {
               if(err) {
                 console.log(err);
               }
-              btCustomerInfo = customer;
               // array of PaymentMethod objects
-              console.log("BrainTree info: " + JSON.stringify(customer));
+              console.log("BrainTree info: " + JSON.stringify(btCustomer));
+              console.log("Customer Info: " + customerInfo);
+              res.render("./personal_account/checkout", {customerInfo: customerInfo, clientToken: clientToken, btCustomer: btCustomer});
             });
           }
           else {
@@ -49,15 +46,19 @@ router.get("/checkout", isLoggedIn, function(req, res){
                 if(err) {
                   console.log(err);
                 }
+                var btResults = result;
                 User.findByIdAndUpdate(req.user._id, { $set: { braintree_customerID: result.customer.id }}, function (err, res) {
                   if (err) {
                     console.log(err);
                   }
                   console.log("braintree_customerID " + result.customer.id);
+                  
                 });
+                console.log(customerInfo);
+                res.render("./personal_account/checkout", {customerInfo: customerInfo, clientToken: clientToken, btCustomer: btResults});
               });
+            
           }
-        res.render("./personal_account/checkout", {customerInfo: customerInfo, clientToken: clientToken, btCustomer: btCustomerInfo});
         }
     });
   });
@@ -65,12 +66,15 @@ router.get("/checkout", isLoggedIn, function(req, res){
 
 
 
+ 
 router.post("/checkout", isLoggedIn, function (req, res) {
   var customerInfo = JSON.parse(req.body.customerInfo);
+  console.log("braintree id " + customerInfo.customer.braintree_customerID);
   var nonceFromTheClient = req.body.payment_method_nonce;
   gateway.transaction.sale({
     amount: customerInfo.amount,
     paymentMethodNonce: nonceFromTheClient,
+    customerId: customerInfo.customer.braintree_customerID,
     options: {
       submitForSettlement: true,
       storeInVaultOnSuccess: true
@@ -88,9 +92,6 @@ router.post("/checkout", isLoggedIn, function (req, res) {
     });
   res.redirect("checkout");
 });
- 
-
-
 
 
 router.get("/wallet", isLoggedIn, function(req, res){
@@ -108,11 +109,8 @@ function isLoggedIn(req, res, next){
   if(req.isAuthenticated()){
     return next();
   }
-  res.redirect("/");
+  req.flash("error", "Please Login First!");
+  res.redirect("/signin");
 }
 
 module.exports = router;
-
-
-//need to create a module to load customer info
-//need to create a module to load cart info

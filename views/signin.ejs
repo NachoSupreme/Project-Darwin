@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Magic</title>
+    <meta name="description" content="">
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/modal.css">
+ 
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.js"></script>
+  </head>
+<body style="background-color:#fafaff;">
+
+<!--****************************USER SIGN IN*******************************-->
+<div class="pusher">
+  <div class="ui container" style="margin-top:10%;display: block !important;">
+   
+    <!--ends header-->
+      <!--starts content-->
+    <div class="ui middle aligned center aligned grid">
+      <div class="column forModel">
+        <div class="ui header" style="font-size:2.5em; margin-bottom:0em; margin-right:2.5em;">
+          <i class="angellist icon"></i>
+            Magic
+        </div>
+        <% if(error && error.length > 0) { %>
+              <% if(error.length > 0) {%>
+                <div class="ui mini red floating message">
+                    <p><%= error %></p>
+                </div>
+              <% } %>
+          <% } %>
+        <form class="ui large form" action="/signin" method="POST">
+          <div class="ui stacked segment">
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input type="text" name="username" placeholder="E-mail address">
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="password" placeholder="Password">
+              </div>
+            </div>
+            <button class="ui huge primary button submit" style="width: 100%;">
+                  Log in
+            </button>
+          </div>
+          <div class="ui error message">
+          </div>
+        </form>
+        <div class="ui message">
+          Forgot your password?  <a href="#">Reset here</a>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
